@@ -1,0 +1,38 @@
+-- Importar os dados das estações e das observações
+IMPORT TABLE estacoes FROM "estacoes.csv";
+IMPORT TABLE observacoes FROM "observacoes.csv";
+
+-- Verificar o conteúdo importado
+PRINT TABLE estacoes;
+PRINT TABLE observacoes;
+
+-- Criar uma nova tabela com observações com temperatura superior a 22 graus
+CREATE TABLE mais_quentes SELECT * FROM observacoes WHERE Temperatura > 22;
+
+-- Exportar essa nova tabela para um ficheiro
+EXPORT TABLE mais_quentes AS "quentes.csv";
+
+-- Fazer a junção das estações com as observações
+CREATE TABLE completo FROM estacoes JOIN observacoes USING(Id);
+
+-- Imprimir tabela resultante da junção
+PRINT TABLE completo;
+
+-- Criar um procedimento para automatizar o processo
+PROCEDURE atualizar_observacoes DO
+  CREATE TABLE mais_quentes SELECT * FROM observacoes WHERE Temperatura > 22;
+  CREATE TABLE completo FROM estacoes JOIN observacoes USING(Id);
+  EXPORT TABLE completo AS "completo.csv";
+END
+
+-- Executar o procedimento
+CALL atualizar_observacoes;
+
+-- Renomear a tabela
+RENAME TABLE completo dataset_final;
+
+-- Imprimir tabela renomeada
+PRINT TABLE dataset_final;
+
+-- Eliminar uma tabela
+DISCARD TABLE mais_quentes;
