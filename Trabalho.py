@@ -2,12 +2,7 @@
 import ply.lex as lex
 import play.yacc as yacc
 import csv
-"""
-Autores: Afonso Ferreira - 27981 ; Tomás Braga - 18447
-Data: 12/05/2025
-Descrição: Trabalho Prático 
-UC: Processamento de Linguagens
-"""
+
 #Estrutura de Dados
 tabelas={}
 
