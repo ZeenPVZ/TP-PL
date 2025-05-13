@@ -1,15 +1,18 @@
 # trabalho.py
 import ply.lex as lex
-import play.yacc as yacc
 import csv
 
 #Estrutura de Dados
 tabelas={}
 
+class ArithLexer:
+    def __initialize__(self):
+        self.lexer=None
+
 #Léxico
 tokens=('IMPORT', 'EXPORT', 'DISCARD', 'TABLE', 'RENAME', 'PRINT', 'SELECT', 'FROM', 'WHERE', 'LETRANUM', 'STRING', 'NUMFLOAT')
 
-t_ignora=' \t'
+t_ignore=' \t'
 
 t_IMPORT=r'IMPORT'
 t_EXPORT=r'EXPORT'
@@ -33,21 +36,25 @@ def t_NUMFLOAT(t):
     r'\d+(\.\d+)?'
     return t
 
-def t_novalinha(t):
+def t_nova_linha(t):
     r'\n+'
-    return t
+    t.lexer.lineno+=t.value.count("\n")
 
 def t_comentario(t):
     r'--.#'
-    return t
+    pass    #Ignora os Comentários
+
+def t_multilinecomment(t):
+    r'--\#.*'
+    pass    #Ignora os Comentários Multilinha
 
 def t_erro(t):
     print(f"Caracter Ilegal: {t.value[0]}")
     t.lexer.skip(1) 
 
-lexer=lex.lex()
+lexer=lex.lex(_iniciate_)
 
-
+    
 
 
 
